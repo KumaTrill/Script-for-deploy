@@ -1,0 +1,33 @@
+pragma solidity ^0.8.0;
+
+contract MyContract {
+    // Declare state variables
+    address public owner;
+    uint public myVariable;
+
+    // Define events
+    event ValueChanged(uint newValue);
+
+    // Constructor
+    constructor() {
+        owner = msg.sender;
+        myVariable = 0;
+    }
+
+    // Modifier to restrict access to the owner
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the contract owner can call this function.");
+        _;
+    }
+
+    // Function to update the variable
+    function updateVariable(uint newValue) public onlyOwner {
+        myVariable = newValue;
+        emit ValueChanged(newValue);
+    }
+
+    // Function to get the current variable value
+    function getVariable() public view returns (uint) {
+        return myVariable;
+    }
+}
